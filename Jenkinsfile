@@ -10,12 +10,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/samuelomofomah/techpathway-2.git'
-            }
-        }
-
         stage('Build Frontend Image') {
             steps {
                 sh 'docker build -t frontend ./frontend'
