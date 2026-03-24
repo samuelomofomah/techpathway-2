@@ -1,26 +1,48 @@
-const express = require('express')
+const express = require('express');
 const { v4: uuidv4 } = require('uuid');
-const { CORS_ORIGIN } = require('./config')
-console.log(require('./config'))
-console.log(CORS_ORIGIN)
+const { CORS_ORIGIN } = require('./config');
 
-const ID = uuidv4()
-const PORT = 8080
+const app = express();
 
-const app = express()
-app.use(express.json())
+const PORT = 8080;
+const ID = uuidv4();
 
+app.use(express.json());
+
+// ✅ CORS (allow frontend from ALB)
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', CORS_ORIGIN)
-    res.setHeader('Access-Control-Allow-Methods', 'GET')
-    res.setHeader('Access-Control-Allow-Headers', '*')
+    res.setHeader('Access-Control-Allow-Origin', '*'); // allow all (simplest)
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', '*');
     next();
-})
-app.get(/.*/, (req, res) => {
-    console.log(`${new Date().toISOString()} GET`)
-    res.json({id: ID})
-})
+});
 
+// ✅ ROOT API (important)
+app.get('/api', (req, res) => {
+    res.json({
+        message: 'API root working',
+        instance: ID
+    });
+});
+
+// ✅ TEST ROUTE (useful for debugging)
+app.get('/api/test', (req, res) => {
+    res.json({
+        message: 'API test working',
+        instance: ID
+    });
+});
+
+// ✅ CATCH ALL (prevents JSON.parse errors)
+app.get('/api/*', (req, res) => {
+    res.json({
+        message: 'API wildcard route',
+        path: req.originalUrl,
+        instance: ID
+    });
+});
+
+// ✅ START SERVER
 app.listen(PORT, () => {
-    console.log(`Backend started on ${PORT}. ctrl+c to exit`)
-})
+    console.log(`Backend started on port ${PORT}`);
+});

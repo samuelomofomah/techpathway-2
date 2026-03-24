@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css';
-import API_URL from './config'
+import { API_URL } from './config'
 
 function App() {
   const [successMessage, setSuccessMessage] = useState() 

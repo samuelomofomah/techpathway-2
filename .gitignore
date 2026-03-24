@@ -1,1 +1,32 @@
+# Node modules
 node_modules/
+
+# Logs
+logs
+*.log
+
+# OS files
+.DS_Store
+
+# Env files
+.env
+
+# Terraform
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# AWS / Secrets
+*.pem
+*.key
+
+# Build folders
+build/
+dist/
+
+# VS Code
+.vscode/
+
+# Misc
+*.swp
